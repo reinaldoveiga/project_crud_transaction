@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,22 +15,40 @@ use App\Http\Controllers\TransactionsController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+ //   return view('welcome');
+//});
 
-Auth::routes();
+//Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Route::resource('transactions', TransactionsController::class);
 
 //Route::resource('transactions/create', TransactionsController::class);
 
-Route::resources([
+//Route::get('/transactions', [TransactionsController::class, 'index'])->name('transactions');
 
-    'transactions' => TransactionsController::class,
-    'create' => TransactionsController::class
-]);
+//Route::resources([
 
+   // 'transactions' => TransactionsController::class,
+   // 'create' => TransactionsController::class,
+//]);
 
+Route::group(['middleware' => 'web'], function(){
+    Route::get('/', [HomeController::class, 'index']);
+
+    Auth::routes();
+
+    //Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+});
+    
+
+Route::get('/transactions', [TransactionsController::class, 'create'])->name('transactions');
+
+Route::resource('/transactions/create', TransactionsController::class);
+
+Route::get('transactions/{id}/edit', [TransactionsController::class, 'edit'])->name('transactions');
+Route::post('transactions/update/{id}', [TransactionsController::class, 'update'])->name('transactions');
+Route::delete('transactions/delete/{id}', [TransactionsController::class, 'delete'])->name('transactions');
