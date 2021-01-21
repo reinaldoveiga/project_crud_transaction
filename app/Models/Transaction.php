@@ -3,7 +3,7 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class Transactions extends Model
+class Transaction extends Model
 {
 
   
@@ -12,7 +12,6 @@ class Transactions extends Model
         'valor',
         'cpf',
         'status',
-        'user_id',
     ];
 
     protected $table = 'transactions';

@@ -23,7 +23,7 @@
             @csrf
 
             @foreach($transactions as $transactions)
-               <div class="container-fluid" style="width:1000px; rigth:-100px" !important;>
+               <div class="container-fluid" style="width:1000px; rigth:-100px" !important >
                     <div class="row">
                             <div class="col-xxl-4" >
                                 <div class="card">
@@ -31,8 +31,7 @@
                                         <table>
                                         <tr>{{$transactions->valor}} - </tr>
                                         <tr>{{$transactions->cpf}} - </tr>
-                                        <tr>{{$transactions->id}} - </tr>
-                                        <tr>Em processamento <tr>
+                                        <tr>{{$transactions->status}} <tr>
                                         <tr>{{$transactions->created_at}}</tr>
                                         </table>
 
@@ -43,7 +42,7 @@
                                             </svg>
                                               </button >
                                               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">Ver</a>
+                                                <a class="btn btn-ligth" data-toggle="modal" data-target="#myModal{{$transactions->id}}">Ver</a>
                                                 <a class="dropdown-item" href="transactions/{{$transactions->id}}/edit">Editar</a>
                                                 <form action="transactions/delete/{{$transactions->id}}" method="post">
                                                   @csrf
@@ -52,7 +51,32 @@
                                                 </form>
                                               
                                               </div>
+                                              
                                         </div>
+
+                                        <div class="modal" tabindex="-1" role="dialog" id="myModal{{$transactions->id}}">
+                                            <div class="modal-dialog" role="document">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title">Transação</h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  <p>Criador da Transação: {{$transactions->nome}}</p>
+                                                  <p>Valor: {{$transactions->valor}}</p>
+                                                  <p>CPF: {{$transactions->cpf}}</p>
+                                                  <p>Status da Transação: {{$transactions->status}}</p>
+                                                  <p>Transação criada em: {{$transactions->created_at}}</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
                                     </div>
                                 
                                </div>
@@ -61,8 +85,7 @@
                 </div>
 
                 
-                
-
+@endforeach
                 <div class="container">
   
               
@@ -71,7 +94,7 @@
 
 
 
-                @endforeach
+                
 
             
             </div>

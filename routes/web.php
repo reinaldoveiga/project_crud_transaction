@@ -37,16 +37,20 @@ use App\Http\Controllers\HomeController;
 
 Route::group(['middleware' => 'web'], function(){
     Route::get('/', [HomeController::class, 'index']);
+    //Route::get('/', [TransactionsController::class, 'create'])->name('transactions');
 
     Auth::routes();
 
     //Route::get('/home', [HomeController::class, 'index'])->name('home');
+    //Route::get('/', [TransactionsController::class, 'create'])->name('transactions');
+    //Route::get('/home', [TransactionsController::class, 'create'])->name('transactions');
 
 });
     
 
 Route::get('/transactions', [TransactionsController::class, 'create'])->name('transactions');
 
+Route::resource('/transactions/{create}', TransactionsController::class);
 Route::resource('/transactions/create', TransactionsController::class);
 
 Route::get('transactions/{id}/edit', [TransactionsController::class, 'edit'])->name('transactions');

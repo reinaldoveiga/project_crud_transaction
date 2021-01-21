@@ -67,20 +67,15 @@
 
 
 
-
-<div class="form-group row">
-    <label class="col-sm-2 col-form-label">Status</label>
-    <div class="col-md-9">
-        <input type="hidden" name="status" value="0">
-        <input type="checkbox" name="status" value="1" >
-
-        @error('status')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
-    </div>
-</div>
+<div class="form-group col-md-4">
+                <label class="col-sm" for="status">Status: *</label>
+                <select id="status" name="status" class="form-control" style="magin-rigth:120px" value="{{$transactions->status}}">
+                    <option>Em processamento</option>
+                    <option>Aprovada</option>
+                    <option>Negada</option>
+                    
+                </select>
+                </div>
 
 <hr>
 
@@ -112,7 +107,7 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Criador da Transação:</label>
                 <div class="col-md-9">
-                <input type="text" id="nome" class="form-control" placeholder="{{ Auth::user()->name }}" autofocus>
+                <input type="text" id="{{ Auth::user()->name }}" name="{{ Auth::user()->name }}" class="form-control" placeholder="{{ Auth::user()->name }}" autofocus>
                 </div>
                 </div>
                 
@@ -122,7 +117,7 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Valor: *</label>
                 <div class="col-md-9">
-                    <input type="text" id="valor" name="valor" class="form-control @error('name') @errror is-invalid @enderror" value="{{ old('name', $tasks->name ?? null) }}" onkeyup="toUpper(this)" placeholder="Digite o Valor da Transação" autofocus>
+                    <input type="text" id="valor" name="valor" class="form-control @error('name') @errror is-invalid @enderror" value="{{ old('name', $transactions->valor ?? null) }}" onkeyup="toUpper(this)" placeholder="Digite o Valor da Transação" autofocus>
 
                     @error('name')
                         <span class="invalid-feedback" role="alert">
@@ -135,7 +130,7 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">CPF: *</label>
                 <div class="col-md-9">
-                    <input type="text" id="cpf" name="cpf" class="form-control @error('name') @errror is-invalid @enderror" value="{{ old('name', $tasks->details ?? null) }}" onkeyup="toUpper(this)" placeholder="Digite o CPF" autofocus>
+                    <input type="text" id="cpf" name="cpf" class="form-control @error('name') @errror is-invalid @enderror" value="{{ old('name', $transactions->cpf ?? null) }}" onkeyup="toUpper(this)" placeholder="Digite o CPF" autofocus>
 
                     @error('details')
                         <span class="invalid-feedback" role="alert">
@@ -150,19 +145,17 @@
 
 
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Status</label>
-                <div class="col-md-9">
-                    <input type="hidden" name="status" value="0">
-                    <input type="checkbox" name="status" value="1" >
-
-                    @error('status')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+            <div class="form-group col-md-4">
+                <label class="col-sm" for="status">Status: *</label>
+                <select id="status" name="status" class="form-control" style="magin-rigth:120px">
+                    <option>Em processamento</option>
+                    <option>Aprovada</option>
+                    <option>Negada</option>
+                    
+                </select>
                 </div>
-            </div>
+
+                
 
             <hr>
 

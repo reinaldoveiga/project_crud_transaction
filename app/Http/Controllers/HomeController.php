@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Transactions;
+use App\Http\Controllers\Route;
 
 class HomeController extends Controller
 {
@@ -26,5 +27,6 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+        //return Route::get('/home', [TransactionsController::class, 'create'])->name('transactions');
     }
 }

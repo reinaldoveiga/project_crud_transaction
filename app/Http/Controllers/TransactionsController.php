@@ -7,6 +7,7 @@ use Validator;
 use App\Models\Transactions;
 use DB;
 use Redirect;
+use Auth;
 
 class TransactionsController extends Controller
 {
@@ -30,17 +31,20 @@ class TransactionsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'name',
             'valor' => 'required',
             'cpf' =>  'required',
             'status' => 'required',
+            'user_id',
 
         ]);
 
         $Transactions = new Transactions;
-       // $Transactions-> nome = '{{ Auth::user()->name }}';
+        $Transactions-> nome =  Auth::user()->name;
         $Transactions -> valor = $request->input('valor');
         $Transactions -> cpf = $request->input('cpf'); 
         $Transactions -> status = $request->input('status');
+        $Transactions -> user_id =  Auth::user()->id ;
         $Transactions -> save();
         return redirect('transactions');
     }
