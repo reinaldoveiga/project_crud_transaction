@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Transações',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>Transação</b>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -224,16 +224,18 @@ return [
     */
 
     'menu' => [
-       // [
-         ///   'text' => 'buscar',
-         //   'search' => true,
-         //   'topnav' => true,
-       // ],
+        [
+            'text' => 'buscar',
+           'search' => true,
+           'topnav' => true,
+        ],
 
         [
+          
           'text' => 'Criar Transação',
           'url' => 'transactions/create',
-          'topnav' => true,
+          'icon' => 'fas fa-hand-holding-usd',
+          
 
 
         ],

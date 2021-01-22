@@ -6,33 +6,36 @@
 
 @section('content')
 
-<nav class="navbar navbar-light bg-light">
-  <form class="form-inline">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  </form>
-</nav>
+<h1>Transações</h1>
 
 <div class="card">
     
 
     <div class="card-body">
 
+    <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
        
 
             @csrf
-
+            
             @foreach($transactions as $transactions)
+            @if(Auth::user()->id==$transactions->user_id)
                <div class="container-fluid" style="width:1000px; rigth:-100px" !important >
                     <div class="row">
-                            <div class="col-xxl-4" >
+                            <div class="col-xxl-4">
                                 <div class="card">
                                     <div class="card-header">
                                         <table>
-                                        <tr>{{$transactions->valor}} - </tr>
-                                        <tr>{{$transactions->cpf}} - </tr>
-                                        <tr>{{$transactions->status}} <tr>
-                                        <tr>{{$transactions->created_at}}</tr>
+                                        <tr><a class="button" data-toggle="modal" data-target="#myModal{{$transactions->id}}">R$ {{$transactions->valor}} - </a></tr>
+                                        <tr><a class="button" data-toggle="modal" data-target="#myModal{{$transactions->id}}">{{$transactions->cpf}} - </a></tr>
+                                        <tr><a class="button" data-toggle="modal" data-target="#myModal{{$transactions->id}}">{{$transactions->status}} </a><tr>
+                                        <tr><a class="button" data-toggle="modal" data-target="#myModal{{$transactions->id}}">{{$transactions->created_at}}</a></tr>
                                         </table>
 
                                         <div class="dropdown">
@@ -44,11 +47,7 @@
                                               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="btn btn-ligth" data-toggle="modal" data-target="#myModal{{$transactions->id}}">Ver</a>
                                                 <a class="dropdown-item" href="transactions/{{$transactions->id}}/edit">Editar</a>
-                                                <form action="transactions/delete/{{$transactions->id}}" method="post">
-                                                  @csrf
-                                                  @method('delete')
-                                                  <button class="btn btn-danger" >Excluir</a>
-                                                </form>
+                                                <a class="btn btn-danger" data-toggle="modal" data-target="#myModalDelete{{$transactions->id}}">Excluir</a>
                                               
                                               </div>
                                               
@@ -65,7 +64,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                   <p>Criador da Transação: {{$transactions->nome}}</p>
-                                                  <p>Valor: {{$transactions->valor}}</p>
+                                                  <p>Valor: R$ {{$transactions->valor}}</p>
                                                   <p>CPF: {{$transactions->cpf}}</p>
                                                   <p>Status da Transação: {{$transactions->status}}</p>
                                                   <p>Transação criada em: {{$transactions->created_at}}</p>
@@ -77,6 +76,31 @@
                                             </div>
                                           </div>
 
+                                          <div class="modal" tabindex="-1" role="dialog" id="myModalDelete{{$transactions->id}}">
+                                            <div class="modal-dialog" role="document">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title">Transação</h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  <p>Tem certeza de que deseja EXCLUIR está Transação ?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <form action="transactions/delete/{{$transactions->id}}" method="post">
+                                                  @csrf
+                                                  @method('delete')
+                                                  <button type="submit" class="btn btn-danger" >Sim</button>
+                                                </form>  
+                                                  <button type="button" class="btn btn-warning" data-dismiss="modal">Não</button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+
                                     </div>
                                 
                                </div>
@@ -85,31 +109,10 @@
                 </div>
 
                 
-@endforeach
-                <div class="container">
-  
-              
-
-
-
-
-
                 
-
-            
-            </div>
-
-            <hr>
-
-        <div class="form-group row mb-0">
-            <div class="col-md-9 offset-md-2">
-                <button type="submit" class="btn btn-success">
-                    <i class="fa fa-check"></i> Criar Transação
-                </button>
-               
-            </div>
-        </div>
-        </form>
+                @endif
+                
+@endforeach
 
         </div>
         </div>

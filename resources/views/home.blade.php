@@ -14,7 +14,8 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    <h1>Seja Bem-vindo!</h1>
+                    <a href="{{url('transactions')}}">Lista de Transações</a>
                 </div>
             </div>
         </div>

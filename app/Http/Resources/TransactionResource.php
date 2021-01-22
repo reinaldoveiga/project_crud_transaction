@@ -15,12 +15,12 @@ class TransactionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'            => $this->id,
-            'nome'          => $this->nome,
-            //'document'      => $this->document,
-            'valor'         => $this->valor,
-            'cpf'           =>  $this->cpf,
-            "created_at"    => $this->created_at,
+            
+            'nome' => $this->nome,
+            'valor' => $this->valor,
+            'cpf'    =>  $this->cpf,
+            'status'  =>  $this->status,
+            "created_at" => $this->created_at,
         ];
     }
 }

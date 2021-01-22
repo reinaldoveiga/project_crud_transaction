@@ -4,32 +4,27 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\TransactionsRequest;
+use App\Http\Requests\Api\TransactionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Models\Transactions;
 
 
-class PaymentController extends Controller
+class TransactionsController extends Controller
 {
 
     public function index()
     {
-        return TransactionResource::collection(Transaction::all());
+        return TransactionResource::collection(Transactions::all());
     }
 
-    public function store(TransactionsRequest $request)
+    public function add(TransactionRequest $request)
     {
         Transactions::create($request->all());
 
         return new TransactionResource();
     }
 
-    public function show($id)
-    {
-        return new TransactionResource(Transactions::FindOrFail($id));
-    }
-
-    public function update(TransactionsRequest $request, Transactions $transactions)
+    public function update(TransactionRequest $request, Transactions $transactions)
     {
         $transactions->update($request->all());
 
@@ -39,9 +34,9 @@ class PaymentController extends Controller
 
     }
 
-    public function destroy(Transactions $transactions)
+    public function delete($id)
     {
-        $transactions->destroy();
+        $transactions->delete();
 
         return $this->response('Transação Deletada com Sucesso!');
     }

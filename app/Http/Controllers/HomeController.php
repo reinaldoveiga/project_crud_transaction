@@ -27,6 +27,6 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
-        //return Route::get('/home', [TransactionsController::class, 'create'])->name('transactions');
+        
     }
 }

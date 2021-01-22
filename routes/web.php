@@ -15,44 +15,21 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-//Route::get('/', function () {
- //   return view('welcome');
-//});
-
-//Auth::routes();
-
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-//Route::resource('transactions', TransactionsController::class);
-
-//Route::resource('transactions/create', TransactionsController::class);
-
-//Route::get('/transactions', [TransactionsController::class, 'index'])->name('transactions');
-
-//Route::resources([
-
-   // 'transactions' => TransactionsController::class,
-   // 'create' => TransactionsController::class,
-//]);
-
 Route::group(['middleware' => 'web'], function(){
     Route::get('/', [HomeController::class, 'index']);
-    //Route::get('/', [TransactionsController::class, 'create'])->name('transactions');
-
+    
     Auth::routes();
 
-    //Route::get('/home', [HomeController::class, 'index'])->name('home');
-    //Route::get('/', [TransactionsController::class, 'create'])->name('transactions');
-    //Route::get('/home', [TransactionsController::class, 'create'])->name('transactions');
-
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+   
 });
     
 
-Route::get('/transactions', [TransactionsController::class, 'create'])->name('transactions');
+Route::get('/transactions', [TransactionsController::class, 'index'])->middleware('auth');
 
-Route::resource('/transactions/{create}', TransactionsController::class);
-Route::resource('/transactions/create', TransactionsController::class);
+Route::get('/transactions/create', [TransactionsController::class, 'create'])->middleware('auth');
+Route::post('/transactions/add', [TransactionsController::class, 'add'])->middleware('auth');
 
-Route::get('transactions/{id}/edit', [TransactionsController::class, 'edit'])->name('transactions');
-Route::post('transactions/update/{id}', [TransactionsController::class, 'update'])->name('transactions');
-Route::delete('transactions/delete/{id}', [TransactionsController::class, 'delete'])->name('transactions');
+Route::get('transactions/{id}/edit', [TransactionsController::class, 'edit'])->middleware('auth');
+Route::post('transactions/update/{id}', [TransactionsController::class, 'update'])->middleware('auth');
+Route::delete('transactions/delete/{id}', [TransactionsController::class, 'delete'])->middleware('auth');

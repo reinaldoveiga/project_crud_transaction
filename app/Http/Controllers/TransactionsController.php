@@ -8,27 +8,26 @@ use App\Models\Transactions;
 use DB;
 use Redirect;
 use Auth;
+use App\Documets;
 
 class TransactionsController extends Controller
 {
     
-  //  public function __construct()
-   // {
-    //    $this->middleware('auth');
-   // }
-
     public function index()
     {
-        return view('transactions.form');
+        $Transactions = DB::table('transactions')->simplePaginate(15);
+        return view('transactions.list', ['transactions' => $Transactions]);
+        
     }
 
     public function create()
     {
-        $Transactions = DB::table('transactions')->simplePaginate(15);
-        return view('transactions.list', ['transactions' => $Transactions]);
+        return view('transactions.form');
     }
 
-    public function store(Request $request)
+  
+
+    public function add(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name',
@@ -46,7 +45,31 @@ class TransactionsController extends Controller
         $Transactions -> status = $request->input('status');
         $Transactions -> user_id =  Auth::user()->id ;
         $Transactions -> save();
-        return redirect('transactions');
+        
+        $documents = 'Documents';
+
+        if(!is_dir($documents))
+        {
+            mkdir($documents, 0755);
+
+        }
+
+
+        $file_name = date('Y-m-d-H-i-s'). '.txt';
+        $file = fopen($file_name, 'w+');
+        fwrite($file, $Transactions-> nome. PHP_EOL);
+        fwrite($file, $Transactions -> valor. PHP_EOL);
+        fwrite($file, $Transactions -> cpf. PHP_EOL);
+        fwrite($file, $Transactions -> status. PHP_EOL);
+        fwrite($file, $Transactions -> user_id. PHP_EOL);
+        fclose($file);
+
+        $move_file = "$documents/$file_name";
+        rename($file_name, $move_file);
+
+        return Redirect::to('/transactions');
+        
+
     }
 
     public function edit($id){
@@ -56,33 +79,26 @@ class TransactionsController extends Controller
 
     }
 
-
-  //  public function update(TransactionsRequest $transactions, TransactionsRequest $request)
-   // {
-    //    $transactions->update($request->all());
-
-     //   return redirect('transactions')
-      //      ->withSuccess('Transação atualizada com sucesso!');
-   // }
-        public function update($id, Request $request){
+    public function update($id, Request $request)
+    {      
+        $transactions = Transactions::findOrFail($id);
+        $transactions->update($request->all());
+        return Redirect::to('/transactions');
             
-            $transactions = Transactions::findOrFail($id);
-            $transactions->update($request->all());
-            return Redirect::to('/transactions')
-            ->withSuccess('Transação atualizada com sucesso!');
 
-        }
+    }
 
 
-        public function delete($id){
+    public function delete($id)
+    {
 
-            $transactions = Transactions::findOrFail($id);
-            $transactions->delete();
-            return Redirect::to('/transactions')
-            ->withSuccess('Deletou com sucesso!');
+        $transactions = Transactions::findOrFail($id);
+        $transactions->delete();
+        return Redirect::to('/transactions');
+            
 
 
-        }
+    }
 
-  
+
 }
